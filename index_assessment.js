@@ -157,9 +157,9 @@ function up_answer_list(){
 
 document.getElementById('i-am-ready').addEventListener('click',()=>{
 	if(second_test_reversed==false){
-		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arranded the words as they appeared before.'
+		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words as they appeared before.'
 	}else{
-		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arranded the words in reverse order.'
+		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words in reverse order.'
 	}
 		document.getElementById('question-second-block-wrapper').style.display='none';
 		document.getElementById('answer-second-block-wrapper').style.display='block';
