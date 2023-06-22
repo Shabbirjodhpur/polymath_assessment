@@ -155,107 +155,267 @@ function up_answer_list(){
 }
 
 
-document.getElementById('i-am-ready').addEventListener('click',()=>{
-	if(second_test_reversed==false){
-		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words as they appeared before.'
-	}else{
-		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words in reverse order.'
+
+
+
+
+document.getElementById('i-am-ready').addEventListener('click', () => {
+	if (second_test_reversed == false) {
+	  document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words as they appeared before.'
+	} else {
+	  document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words in reverse order.'
 	}
-		document.getElementById('question-second-block-wrapper').style.display='none';
-		document.getElementById('answer-second-block-wrapper').style.display='block';
-		let randomize_question_words = shuffle(second_test_question);
-		for(let i=0;i<randomize_question_words.length;i++){
-			let word = randomize_question_words[i];
-
-			var word_div = document.createElement('div');
-			word_div.classList.add('option_word')
-
-			var word_span = document.createElement('span');
-			word_span.innerText = word;			
-
-			var word_up = document.createElement('img');
-			word_up.src='./up-arrow.png'
-			word_up.onclick = up_answer_list;
-
-			var word_down = document.createElement('img');
-			word_down.src='./down-arrow.png'
-			word_down.onclick = down_answer_list
-
-			word_div.append(word_span,word_up,word_down)
-
-			document.getElementById('answer-second-block').append(word_div)
-		}
-	})
-
-function randomBool(){
+	document.getElementById('question-second-block-wrapper').style.display = 'none';
+	document.getElementById('answer-second-block-wrapper').style.display = 'block';
+	let randomize_question_words = shuffle(second_test_question);
+  
+	for (let i = 0; i < randomize_question_words.length; i++) {
+	  let word = randomize_question_words[i];
+  
+	  var word_div = document.createElement('div');
+	  word_div.classList.add('option_word');
+  
+	  var word_span = document.createElement('span');
+	  word_span.innerText = word;
+  
+	  word_div.setAttribute('onclick', 'selectWord(this)'); // Added onclick attribute
+  
+	  word_div.appendChild(word_span);
+  
+	  document.getElementById('answer-second-block').append(word_div);
+	}
+  });
+  
+  function randomBool() {
 	let ran = Math.random();
-	if(ran<0.5) return true;
+	if (ran < 0.5) return true;
 	return false;
-}
-
-function startSecondAssessment(){
+  }
+  
+  function startSecondAssessment() {
 	second_test_question = [];
 	document.getElementById('answer-second-block').innerHTML = '';
 	words_arr = shuffle(words_arr);
-	for(let i=0;i<second_test_word_limit;i++){
-		second_test_question.push(words_arr[i]);
+	for (let i = 0; i < second_test_word_limit; i++) {
+	  second_test_question.push(words_arr[i]);
 	}
 	second_test_reversed = randomBool();
-	document.getElementById('question-reverse-or-not-second-block').innerHTML = '' 
+	document.getElementById('question-reverse-or-not-second-block').innerHTML = '';
 	document.getElementById('question-second-block').innerHTML = second_test_question.join('<br>');
-}
-
-document.getElementById('answer-second-block-submit').addEventListener('click',()=>{
-	let answers = document.getElementById('answer-second-block');
-	let correctly_answered = true;
-	if(second_test_reversed==false){
-		for(let i=0;i<answers.childElementCount;i++){
-			if(second_test_question[i] != answers.childNodes[i].childNodes[0].innerText){ 
-				correctly_answered = false;
-				break;
-			}
-		}
-	}else{
-		for(let i=0;i<answers.childElementCount;i++){
-			if(second_test_question[answers.childElementCount-i-1] != answers.childNodes[i].childNodes[0].innerText){ 
-				correctly_answered = false;
-				break;
-			}
-		}	
+  }
+  
+  function selectWord(word) {
+	var selectedWords = document.getElementsByClassName('selected');
+  
+	if (word.classList.contains('selected')) {
+	  word.classList.remove('selected');
+	  word.style.backgroundColor = '';
+	  word.style.color = '';
+	  word.innerHTML = word.textContent;
+	  updateWordNumbers();
+	} else {
+	  if (selectedWords.length >= second_test_question.length) {
+		return; // Limiting the number of selected words
+	  }
+	  word.classList.add('selected');
+	  word.style.backgroundColor = 'lightgreen';
+	  word.style.color = 'black';
+	  word.innerHTML = '<span>' + (selectedWords.length + 1) + '</span>' + word.innerHTML;
 	}
+  }
+  
+  function updateWordNumbers() {
+	var selectedWords = document.getElementsByClassName('selected');
+	for (var i = 0; i < selectedWords.length; i++) {
+	  selectedWords[i].querySelector('span').innerText = i + 1;
+	}
+  }
+  
+  document.addEventListener('click', function (event) {
+	if (!event.target.closest('.selected')) {
+	  var selectedWords = document.getElementsByClassName('selected');
+	  for (var i = 0; i < selectedWords.length; i++) {
+		selectedWords[i].innerHTML = selectedWords[i].textContent;
+	  }
+	}
+  });
+  
+  document.getElementById('answer-second-block-submit').addEventListener('click', () => {
+	let selectedWords = document.getElementsByClassName('selected');
+	let userAnswer = [];
+	
+	for (let i = 0; i < selectedWords.length; i++) {
+	  userAnswer.push(selectedWords[i].textContent);
+	}
+	
+	if (second_test_reversed == false) {
+	  if (arraysMatch(second_test_question, userAnswer)) {
+		handleCorrectAnswer();
+	  } else {
+		handleWrongAnswer();
+	  }
+	} else {
+	  let reversedUserAnswer = userAnswer.reverse();
+	  
+	  if (arraysMatch(second_test_question, reversedUserAnswer)) {
+		handleCorrectAnswer();
+	  } else {
+		handleWrongAnswer();
+	  }
+	}
+  });
+  
+  function arraysMatch(arr1, arr2) {
+	if (arr1.length !== arr2.length) {
+	  return false;
+	}
+	
+	for (let i = 0; i < arr1.length; i++) {
+	  if (arr1[i] !== arr2[i]) {
+		return false;
+	  }
+	}
+	
+	return true;
+  }
+  
+  function handleCorrectAnswer() {
+	if (second_test_answers.length < 3) {
+	  second_test_word_limit += 5;
+	  second_test_answers.push(second_test_word_limit);
+	  second_test_wrong_answers = 0;
+	  startSecondAssessment();
+	} else {
+	  closeSecondTest();
+	}
+  }
+  
+  function handleWrongAnswer() {
+	second_test_answers.push(second_test_word_limit);
+	second_test_wrong_answers++;
+  
+	if (second_test_wrong_answers == 3) {
+	  closeSecondTest();
+	} else {
+	  startSecondAssessment();
+	}
+  }
+  
+  function closeSecondTest() {
+	document.getElementById('second-block').style.display = 'none';
+	second_test_score = (((second_test_answers[second_test_answers.length - 1] / 5) - 2) * (25 / 3));
+  
+	document.getElementById('info-block').style.display = 'flex';
+  }
+  
+
+
+
+
+
+// document.getElementById('i-am-ready').addEventListener('click',()=>{
+// 	if(second_test_reversed==false){
+// 		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words as they appeared before.'
+// 	}else{
+// 		document.getElementById('question-reverse-or-not-second-block').innerHTML = 'Arrange the words in reverse order.'
+// 	}
+// 		document.getElementById('question-second-block-wrapper').style.display='none';
+// 		document.getElementById('answer-second-block-wrapper').style.display='block';
+// 		let randomize_question_words = shuffle(second_test_question);
+// 		for(let i=0;i<randomize_question_words.length;i++){
+// 			let word = randomize_question_words[i];
+
+// 			var word_div = document.createElement('div');
+// 			word_div.classList.add('option_word')
+
+// 			var word_span = document.createElement('span');
+// 			word_span.innerText = word;			
+
+// 			var word_up = document.createElement('img');
+// 			word_up.src='./up-arrow.png'
+// 			word_up.onclick = up_answer_list;
+
+// 			var word_down = document.createElement('img');
+// 			word_down.src='./down-arrow.png'
+// 			word_down.onclick = down_answer_list
+
+// 			word_div.append(word_span,word_up,word_down)
+
+// 			document.getElementById('answer-second-block').append(word_div)
+// 		}
+// 	})
+
+// function randomBool(){
+// 	let ran = Math.random();
+// 	if(ran<0.5) return true;
+// 	return false;
+// }
+
+
+// function startSecondAssessment(){
+// 	second_test_question = [];
+// 	document.getElementById('answer-second-block').innerHTML = '';
+// 	words_arr = shuffle(words_arr);
+// 	for(let i=0;i<second_test_word_limit;i++){
+// 		second_test_question.push(words_arr[i]);
+// 	}
+// 	second_test_reversed = randomBool();
+// 	document.getElementById('question-reverse-or-not-second-block').innerHTML = '' 
+// 	document.getElementById('question-second-block').innerHTML = second_test_question.join('<br>');
+// }
+
+// document.getElementById('answer-second-block-submit').addEventListener('click',()=>{
+// 	let answers = document.getElementById('answer-second-block');
+// 	let correctly_answered = true;
+// 	if(second_test_reversed==false){
+// 		for(let i=0;i<answers.childElementCount;i++){
+// 			if(second_test_question[i] != answers.childNodes[i].childNodes[0].innerText){ 
+// 				correctly_answered = false;
+// 				break;
+// 			}
+// 		}
+// 	}else{
+// 		for(let i=0;i<answers.childElementCount;i++){
+// 			if(second_test_question[answers.childElementCount-i-1] != answers.childNodes[i].childNodes[0].innerText){ 
+// 				correctly_answered = false;
+// 				break;
+// 			}
+// 		}	
+// 	}
 
 
 	
-	if(correctly_answered && second_test_answers.length<3){
-		second_test_word_limit+=5;
-		second_test_answers.push(second_test_word_limit);
-		second_test_wrong_answers = 0;
-		startSecondAssessment()
-	}else if(second_test_answers.length<3){
-		console.log('hereee')	
-		second_test_answers.push(second_test_word_limit);
-		second_test_wrong_answers++;
-		if(second_test_wrong_answers==3){
-			close_second_test();
-		}else{
-			startSecondAssessment()	
-		}
-	}
-	if(second_test_answers.length<3){
-		document.getElementById('answer-second-block-wrapper').style.display='none';
-		document.getElementById('question-second-block-number').innerText = second_test_answers.length + 1;
-		document.getElementById('question-second-block-wrapper').style.display='block';	
-	}else{
-		close_second_test()
-	}
-})
+// 	if(correctly_answered && second_test_answers.length<3){
+// 		second_test_word_limit+=5;
+// 		second_test_answers.push(second_test_word_limit);
+// 		second_test_wrong_answers = 0;
+// 		startSecondAssessment()
+// 	}else if(second_test_answers.length<3){
+// 		console.log('hereee')	
+// 		second_test_answers.push(second_test_word_limit);
+// 		second_test_wrong_answers++;
+// 		if(second_test_wrong_answers==3){
+// 			close_second_test();
+// 		}else{
+// 			startSecondAssessment()	
+// 		}
+// 	}
+// 	if(second_test_answers.length<3){
+// 		document.getElementById('answer-second-block-wrapper').style.display='none';
+// 		document.getElementById('question-second-block-number').innerText = second_test_answers.length + 1;
+// 		document.getElementById('question-second-block-wrapper').style.display='block';	
+// 	}else{
+// 		close_second_test()
+// 	}
 
-function close_second_test(){
-	document.getElementById('second-block').style.display ='none';
-	second_test_score = (((second_test_answers[second_test_answers.length-1]/5)-2)*(25/3));
+// })
 
-	document.getElementById('info-block').style.display='flex';
-}
+// function close_second_test(){
+// 	document.getElementById('second-block').style.display ='none';
+// 	second_test_score = (((second_test_answers[second_test_answers.length-1]/5)-2)*(25/3));
+
+// 	document.getElementById('info-block').style.display='flex';
+// }
 const validateEmail = (email) => {
   return String(email)
     .toLowerCase()
