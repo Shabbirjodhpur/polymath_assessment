@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="leaderboard_style.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+
+<div>
+<a style="
+    display: block;
+    text-align: center;
+    background-color: #3f9848;
+    color: white;
+    padding: 16px 0px;
+    margin: 0px;
+    margin-bottom:18px;
+    text-decoration: none;
+    font-size: 34px;
+    font-weight: bold;
+" href="http://www.polymathacademy.in/">Polymath Academy</a> 
+</div>
+<div id="body">
+    <main style="padding-bottom: 16px;height: fit-content;">
+      <div id="header" style="display:flex;justify-content:center;">
+        <h1>Leaderboard</h1>
+        <!--<button class="share">
+          <i class="ph ph-share-network"></i>
+        </button>-->
+      </div>
+      <div id="leaderboard">
+        <div class="ribbon"></div>
+	<div id="main_table"></div>
+        <!--<div id="buttons">
+          <button class="exit">Exit</button>
+          <button class="continue">Continue</button>
+        </div>-->
+      </div>
+    </main>
+</div>
+	<script>
+if(location.href.split('name=')[1] == undefined){
+
+	fetch('https://polymath-server-gold.vercel.app/top5').then(e=>{
+		e.text().then(f=>{
+			var data = JSON.parse(f);
+			var raw = `<table>`;
+			for(let i=0;i<data.length;i++){
+				if(i==0){
+					raw+=`
+						<tr>
+						<td class="number">1</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">
+              						<img class="gold-medal" src="gold-medal.png" alt="gold medal"/>
+							${data[i][1]}
+						</td>
+						</tr>
+					`;
+				}else if(i==1){
+					raw+=`
+						<tr>
+						<td class="number">2</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">
+              						<img class="gold-medal" src="silver-medal.png" alt="gold medal"/>
+							${data[i][1]}
+						</td>
+						</tr>
+					`;
+				}else if(i==2){
+					raw+=`
+						<tr>
+						<td class="number">3</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">
+              						<img class="gold-medal" src="bronze-medal.png" alt="gold medal"/>
+							${data[i][1]}
+						</td>
+						</tr>
+					`;				
+				}else{
+					raw+=`
+						<tr>
+						<td class="number">${i+1}</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">${data[i][1]}</td>
+						</tr>
+					`;				
+				}
+			}
+			raw+=`</table>`;
+			document.getElementById('main_table').innerHTML = raw;
+		})
+	})
+}else{
+	fetch('https://polymath-server-gold.vercel.app/top5').then(e=>{
+		e.text().then(f=>{
+			var data = JSON.parse(f);
+			var raw = `<table>`;
+			for(let i=0;i<data.length;i++){
+				if(i==0){
+					raw+=`
+						<tr>
+						<td class="number">1</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">
+              						<img class="gold-medal" src="gold-medal.png" alt="gold medal"/>
+							${data[i][1]}
+						</td>
+						</tr>
+					`;
+				}else if(i==1){
+					raw+=`
+						<tr>
+						<td class="number">2</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">
+              						<img class="gold-medal" src="silver-medal.png" alt="gold medal"/>
+							${data[i][1]}
+						</td>
+						</tr>
+					`;
+				}else if(i==2){
+					raw+=`
+						<tr>
+						<td class="number">3</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">
+              						<img class="gold-medal" src="bronze-medal.png" alt="gold medal"/>
+							${data[i][1]}
+						</td>
+						</tr>
+					`;				
+				}else{
+					raw+=`
+						<tr>
+						<td class="number">${i+1}</td>
+						<td class="name">${data[i][0]}</td>
+						<td class="points">${data[i][1]}</td>
+						</tr>
+					`;				
+				}
+			}
+if(location.href.includes('name')==true){
+	let my_name = decodeURIComponent(location.href.split('name=')[1].split('&position')[0]);
+	let my_position = decodeURIComponent(location.href.split('position=')[1].split('&score')[0]);
+	let my_score = decodeURIComponent(location.href.split('score=')[1].split('&')[0]);
+	if(my_position>5){
+					raw+=`
+						<tr>
+						<td class="number">${my_position}</td>
+						<td class="name">${my_name}</td>
+						<td class="points">${my_score}</td>
+						</tr>
+					`;	
+	}	
+}	
+			raw+=`</table>`;
+			document.getElementById('main_table').innerHTML = raw;
+		})
+	})
+}
+	</script>
+  </body>
+</html>

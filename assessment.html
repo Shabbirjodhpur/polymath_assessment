@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Assessment</title>
+    <link href="assets/img/logo-poly.png" rel="icon" class="">
+<link rel="stylesheet" href="style_assessment.css">
+  </head>
+  <body>
+
+<h1 style="
+    text-align: center;
+    background-color: #3f9848;
+    color: white;
+    padding: 8px 0px;
+    margin: 0px;
+">Polymath Academy</h1>
+
+	<!-- INTRO START -->
+	<!-- d -->
+	<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="intro-block" class="intro-block">
+		<h1 style="text-align: center;font-size: 32px;">Assessment</h1>
+		<p>1.Find a quiet space and set aside dedicated time.</p>
+		<p>2.Relax and clear your mind before starting.</p>
+		<p>3.Read and understand each question or statement carefully.</p>
+		<p>4.Aim to complete the assessment within the allotted time.</p>
+		<button id="start-assessment" class="start">Start Assessment</button>
+	</section>
+	</div>
+	<!-- INTRO END -->
+	<!-- Test 1 START -->
+	<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="first-block" class="intro-block" style="display: none;">
+		<div id="intro-first-block" class="ds-f-column">
+			<h1 style="text-align: center;">Test 1</h1>
+			<p>Each number will be displayed for some time and disapppear ,you have to remember the number and type it again</p>
+			<button class="start" id="start-first-assessment">Start Test</button>
+		</div>
+		<div id="test-first-block" style="display: none;">
+			<h1>
+				<span id="question-first-block-number">1</span>
+			</h1>
+			<div id="question-first-block-wrapper">
+				<p style="font-size: 36px;letter-spacing: 3px;text-align:center;" id="question-first-block"></p>
+			</div>
+			<div id="answer-first-block-wrapper" class="ds-f-column" style="display: none;">
+				<h1 style="font-size:20px;text-align:center;font-weight:100;">Type the earlier numbers</h1>
+				<input type="text" id="answer-first-block" style="margin: 16px;margin-left: 25%;width: 50%;">
+				<button class="start" id="answer-first-block-submit">Submit</button>
+			</div>
+		</div>
+	</section>
+	</div>
+	<!-- Test 1 END -->
+
+	<!-- Test 3 START -->
+	<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="third-block" class="intro-block" style="display: none;">
+		<div id="intro-third-block" class="ds-f-column">
+			<h1 style="text-align: center;">Test 2</h1>
+			<p>You will be shown a bunch of numbers and will be ask a question like this</p>
+			<div style="display:flex;align-items:center;justify-content:center;padding-bottom:8px;">
+				<img src="./example.jpg" style="width:200px;">  
+			</div>
+			<p>Note '2' is just a example, you may be asked any position of numbers from right</p>
+			<button class="start" id="start-third-assessment">Start Test</button>
+		</div>
+		<div id="test-third-block" style="display: none;">
+			<h1> 
+				<span id="question-third-block-number">1</span>
+			</h1>
+			<div id="question-third-block-wrapper">
+				<p style="font-size: 36px;letter-spacing: 3px;text-align:center;" id="question-third-block"></p>
+			</div>
+			<div id="answer-third-block-wrapper" class="ds-f-column" style="display: none;">
+				<p id="n-back-third-test-question"></p>
+				<input type="text" id="answer-third-block" style="margin: 16px;margin-left: 25%;width: 50%;">
+				<button class="start" id="answer-third-block-submit">Submit</button>
+			</div>
+		</div>
+	</section>
+	</div>
+	<!-- Test 3 END -->
+
+	<!-- Test 4 START -->
+	<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="fourth-block" class="intro-block" style="display: none;">
+		<div id="intro-fourth-block" class="ds-f-column">
+			<h1 style="text-align: center;">Test 3</h1>
+			<p>You will be shown a bunch of numbers remember</p>
+			<button class="start" id="start-fourth-assessment">Start Test</button>
+		</div>
+		<div id="test-fourth-block" style="display: none;">
+			<h1>
+				<span id="question-fourth-block-number">1</span>
+			</h1>
+			<div id="question-fourth-block-wrapper">
+				<p style="font-size: 36px;letter-spacing: 3px;text-align:center;" id="question-fourth-block"></p>
+			</div>
+			<div id="answer-fourth-block-wrapper" class="ds-f-column" style="display: none;">
+				<p id="specific-fourth-test-question"></p>
+				<div id="answer-fourth-block"></div>
+				<button class="start" id="answer-fourth-block-submit">Submit</button>
+			</div>
+		</div>
+	</section>
+	</div>
+	<!-- Test 4 END -->
+
+	<!-- Test 2 START -->
+	<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="second-block" class="intro-block" style="display: none;">
+		<div id="intro-second-block" class="ds-f-column">
+			<h1 style="text-align: center;">Test 4</h1>
+			<p>You will be shown a bunch of words remember them with their sequence</p>
+			<button class="start" id="start-second-assessment">Start Test</button>
+		</div>
+		<div id="test-second-block" style="display: none;">
+			<h1>
+				<span id="question-second-block-number">1</span>
+				<span id="question-reverse-or-not-second-block" style="text-align:center;"></span>
+			</h1>
+			<div id="question-second-block-wrapper">
+				<p style="font-size: 26px;text-align:center;" id="question-second-block"></p>
+				<button id="i-am-ready" class="start">I am ready</button>
+			</div>
+			<div id="answer-second-block-wrapper" class="ds-f-column" style="display: none;">
+				<ul id="answer-second-block"></ul>
+				<button class="start" id="answer-second-block-submit">Submit</button>
+			</div>
+		</div>
+	</section>
+	</div>
+	<!-- Test 2 END -->
+
+
+	<!-- INFO START -->
+<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="info-block" class="intro-block" style="align-items: center; display: none;">
+		<h1 style="text-align: center;font-size: 32px;">Fill in your details</h1>
+		<input placeholder="name" id="info-name" style="
+    margin: 9px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    width: 80%;
+">
+
+		<input placeholder="E-mail" id="info-email" style="
+    margin: 9px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    width: 80%;
+"><input placeholder="Phone Number" id="info-phone" style="
+    margin: 9px;
+    padding: 8px;
+    border-radius: 8px;
+    border: 1px solid black;
+    width: 80%;
+    margin-bottom: 16px;
+">
+		
+		
+		
+		<button id="submit-details" class="start">Submit</button>
+	</section>
+	</div>
+	<!-- INFO END -->
+
+
+	<!-- SCORE START -->
+	<div style="display:flex;flex-direction:column;align-items:center;">
+	<section id="score-block" class="intro-block" style="display: none;">
+		<h1 style="text-align: center;">Results</h1>
+		<p>You scored <span id="display-score-first"></span>/25 in First Test</p>
+		<p>You scored <span id="display-score-third"></span>/25 in Second Test</p>
+		<p>You scored <span id="display-score-fourth"></span>/25 in Third Test</p>
+		<p>You scored <span id="display-score-second"></span>/25 in Fourth Test</p>
+		<p>In total you scored <span id="display-score-total"></span>/100 overall</p>
+<div style="
+    display: flex;
+    justify-content: center;
+">
+    <a id="view-leaderboard" style="
+    background-color: #3f9848;
+    width: fit-content;
+    padding: 8px 18px;
+    border-radius: 16px;
+    color: white;
+    text-decoration: none;
+font-weight: bold;
+">View Leaderboard</a>
+</div>
+	</section>
+	</div>
+	<!-- SCORE END -->
+	<script src="index_assessment.js"></script>
+	<script>
+		document.getElementById('view-leaderboard').addEventListener('click',()=>{
+			let name = document.getElementById('info-name').value;
+let total_score = parseFloat(first_test_score.toFixed(2)) + parseFloat(second_test_score.toFixed(2)) + parseFloat(third_test_score.toFixed(2)) + parseFloat(fourth_test_score.toFixed(2))
+			window.location.href=window.location.origin+`/leaderboard.html?name=${encodeURIComponent(name)}&position=${my_position_global}&score=${encodeURIComponent(total_score)}`
+		})
+	</script>
+  
+</body></html>

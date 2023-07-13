@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>HTML 5 Boilerplate</title>
+    <link rel="stylesheet" href="style_assessment.css">
+	<style>
+		#admin-download{
+			display:none;
+		}
+	</style>
+  </head>
+  <body>
+
+<input type='password' id='admin-pass'/>
+<button id='submit-admin'>Submit</button>
+<button id='admin-download'>Download</button>
+	<script>
+function createTable(tableData) {
+  var table = document.createElement('table');
+  var tableBody = document.createElement('tbody');
+
+  tableData.forEach(function(rowData) {
+    var row = document.createElement('tr');
+
+    rowData.forEach(function(cellData) {
+      var cell = document.createElement('td');
+      cell.appendChild(document.createTextNode(cellData));
+      row.appendChild(cell);
+    });
+
+    tableBody.appendChild(row);
+  });
+
+  table.appendChild(tableBody);
+  document.body.appendChild(table);
+}
+function download(filename, text) {
+  var element = document.createElement('a');
+  element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+  element.setAttribute('download', filename);
+
+  element.style.display = 'none';
+  document.body.appendChild(element);
+
+  element.click();
+
+  document.body.removeChild(element);
+}
+document.getElementById('admin-download').addEventListener('click',()=>{
+	download('test.csv',data.join('\n'))
+})
+var data;
+document.getElementById('submit-admin').addEventListener('click',()=>{
+		fetch("https://polymath-server-gold.vercel.app/admin", {
+  method: "POST",
+  body: JSON.stringify({
+    password:(document.getElementById('admin-pass').value)
+  }),
+  headers: {
+    "Content-type": "application/json; charset=UTF-8"
+  }
+}).then(e=>
+	e.text().then(f=>{
+		f = JSON.parse(f);
+
+		let heading = [];
+		let temp = f[0].split('|')
+			for(let j=0;j<temp.length;j++){
+				heading.push(temp[j].split('=')[0])
+			}
+
+		for(let i=0;i<f.length;i++){
+			f[i] = f[i].split('|')
+			for(let j=0;j<f[i].length;j++){
+				f[i][j] = f[i][j].split('=')[1]
+			}
+		}
+		f.unshift(heading)
+		console.log(f)
+
+		createTable(f)
+		data=f;
+		document.getElementById('admin-download').style.display='block'
+	})
+	).catch(e=>console.log(e))
+})
+	</script>
+  </body>
+</html>
