@@ -1,52 +1,82 @@
-<link href="assets/img/logo-poly.png" rel="icon">
-<div class="formbold-main-wrapper">
-    <div class="formbold-form-wrapper">
-        <div class="formbold-input-flex">
-            <div>
-                <label for="firstname" class="formbold-form-label"> First Name </label>
-                <input type="text" name="firstname" id="firstname" placeholder="Your first name"
-                    class="formbold-form-input" />
+<body>
+    <link href="assets/img/logo-poly.png" rel="icon">
+    <div class="formbold-main-wrapper">
+        <div class="formbold-form-wrapper">
+            <div class="formbold-input-flex">
+                <div>
+                    <label for="firstname" class="formbold-form-label"> Full Name </label>
+                    <input type="text" name="firstname" id="firstname" placeholder="Your Full name"
+                        class="formbold-form-input" />
+                </div>
+
             </div>
 
-            <div>
-                <label for="lastname" class="formbold-form-label"> Last Name </label>
-                <input type="text" name="lastname" id="lastname" placeholder="Your last name"
-                    class="formbold-form-input" />
+            <div class="formbold-input-flex">
+                <div>
+                    <label for="email" class="formbold-form-label"> Email </label>
+                    <input type="email" name="email" id="email" placeholder="example@email.com"
+                        class="formbold-form-input" />
+                </div>
+
+                <div>
+                    <label class="formbold-form-label">Gender</label>
+                    <select class="formbold-form-input" name="gender" id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                    </select>
+                </div>
             </div>
+
+            <div class="formbold-mb-3 formbold-input-wrapp">
+                <label for="phone" class="formbold-form-label"> Phone </label>
+                <div>
+                    <input type="text" name="phone" id="phone" placeholder="Phone number" class="formbold-form-input" />
+                </div>
+            </div>
+
+            <div class="formbold-mb-3">
+                <label for="dob" class="formbold-form-label"> Preferred starting date? </label>
+                <input type="date" name="dob" id="dob" class="formbold-form-input" />
+            </div>
+
+
+            <button class="formbold-btn" id="formcheckout">Checkout</button>
         </div>
-
-        <div class="formbold-input-flex">
-            <div>
-                <label for="email" class="formbold-form-label"> Email </label>
-                <input type="email" name="email" id="email" placeholder="example@email.com"
-                    class="formbold-form-input" />
-            </div>
-
-            <div>
-                <label class="formbold-form-label">Gender</label>
-                <select class="formbold-form-input" name="gender" id="gender">
-                    <option value="male">Male</option>
-                    <option value="female">Female</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="formbold-mb-3 formbold-input-wrapp">
-            <label for="phone" class="formbold-form-label"> Phone </label>
-            <div>
-                <input type="text" name="phone" id="phone" placeholder="Phone number" class="formbold-form-input" />
-            </div>
-        </div>
-
-        <div class="formbold-mb-3">
-            <label for="dob" class="formbold-form-label"> Preferred starting date? </label>
-            <input type="date" name="dob" id="dob" class="formbold-form-input" />
-        </div>
-
-
-        <button class="formbold-btn" id="formcheckout">Checkout</button>
     </div>
-</div>
+
+    <button class="formbold-btn" id="rzp-button1">Pay</button>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script>
+        document.getElementById('rzp-button1').onclick = async function (e) {
+            e.preventDefault();
+
+            let amount = 399900;
+
+            let response = await axios.post("http://localhost:5005/testing", { amount });
+            console.log(response.data.order_id);
+
+            var options = {
+                "key": "rzp_test_yZ0fUpgIh9QxTg",
+                "amount": "399900",
+                "currency": "INR",
+                "name": "Excel 101",
+                "image": "assets/img/logo-poly.png",
+                "order_id": response.data.order_id,
+                "handler": function (response) {
+                    alert(response.razorpay_payment_id);
+                    alert(response.razorpay_order_id);
+                    alert(response.razorpay_signature)
+                }
+            }
+
+            var rzp1 = new Razorpay(options);
+
+            rzp1.open();
+        }
+
+
+    </script>
+</body>
 
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -92,7 +122,7 @@
     }
 
     .formbold-input-flex>div {
-        width: 50%;
+        width: 100%;
     }
 
     .formbold-form-input {
@@ -194,25 +224,22 @@
 
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script>
-    // import axios from "axios";
 
     async function checkout() {
         console.log(`working fine`);
         let firstname = document.getElementById("firstname").value;
-        let lastname = document.getElementById("lastname").value;
         let email = document.getElementById("email").value;
         let gender = document.getElementById("gender").value;
         let phone = document.getElementById("phone").value;
         let psd = document.getElementById("dob").value;
 
-        if (!firstname || !lastname || !email || !gender || !phone || !psd) {
+        if (!firstname || !email || !gender || !phone || !psd) {
             alert("Fill all fields");
             return;
         }
 
         let userData = {
             firstname,
-            lastname,
             email,
             gender,
             phone,
@@ -220,21 +247,9 @@
         };
 
         console.log(userData);
-        // let response = await axios.post('http://localhost:5005/testing', userData);
-        let response = await axios.post('http://localhost:5005/testing?lol=1234', userData);
+        let response = await axios.post('http://localhost:5005/testing', userData);
         console.log(response);
 
-        // try {
-        //     let fileData = await fs.readFile('data.json');
-        //     fileData = JSON.parse(fileData);
-
-        //     fileData.push(userData);
-
-        //     await fs.writeFile('data.json', JSON.stringify(fileData));
-        //     alert("Data saved successfully!");
-        // } catch (error) {
-        //     console.error("Error:", error);
-        // }
     }
 
     document.getElementById("formcheckout").addEventListener("click", () => {
