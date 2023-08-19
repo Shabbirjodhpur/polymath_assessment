@@ -50,14 +50,13 @@
         document.getElementById('rzp-button1').onclick = async function (e) {
             e.preventDefault();
 
-            let amount = 399900;
+            let amount = 399900; // last two places are the decimal place
 
-            let response = await axios.post("http://localhost:5005/testing", { amount });
-            console.log(response.data.order_id);
+            let response = await axios.post("http://localhost:5005/pay", { amount });
 
             var options = {
                 "key": "rzp_test_yZ0fUpgIh9QxTg",
-                "amount": "399900",
+                "amount": "399900", // last two places are the decimal place
                 "currency": "INR",
                 "name": "Excel 101",
                 "image": "assets/img/logo-poly.png",
@@ -226,7 +225,6 @@
 <script>
 
     async function checkout() {
-        console.log(`working fine`);
         let firstname = document.getElementById("firstname").value;
         let email = document.getElementById("email").value;
         let gender = document.getElementById("gender").value;
@@ -246,9 +244,7 @@
             psd
         };
 
-        console.log(userData);
         let response = await axios.post('http://localhost:5005/testing', userData);
-        console.log(response);
 
     }
 

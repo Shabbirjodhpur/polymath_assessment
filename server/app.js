@@ -10,10 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.post(`/testing`, async (req, res) => {
-    // res.status(200).json({success:"testing success"})
     try {
-        console.log(req.body);
-        // res.status(200).json({ success: "testing success" });
         async function cheku() {
             let { firstname, email, gender, phone, psd } = req.body;
 
@@ -31,11 +28,20 @@ app.post(`/testing`, async (req, res) => {
             console.log(userData);
             fileData.push(userData);
             await fs.writeFile('data.json', JSON.stringify(fileData));
-            // alert("Data saved successfully!"); send karna hai
-
         }
-        async function pay() {
+        
+        cheku();
+        res.status(200).json({
+            success: true
+        })
+    } catch (error) {
+        console.error(error);
+    }
+})
 
+app.post(`/pay`, async (req, res) => {
+    try {
+        async function pay() {
             let { amount } = req.body;
 
             var instance = new Razorpay({
@@ -55,11 +61,7 @@ app.post(`/testing`, async (req, res) => {
                 amount
             })
         }
-
-        cheku();
         pay();
-
-
     } catch (error) {
         console.error(error);
     }
