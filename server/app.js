@@ -9,10 +9,10 @@ const port = 5005;
 app.use(express.json());
 app.use(cors());
 
-app.post(`/testing`, async (req, res) => {
+app.post(`/savedata`, async (req, res) => {
     try {
-        async function cheku() {
-            let { firstname, email, gender, phone, psd } = req.body;
+        async function saveUserData() {
+            let { firstname, email, gender, phone, psd, course } = req.body;
 
             let fileData = await fs.readFile('data.json');
             fileData = JSON.parse(fileData);
@@ -22,15 +22,15 @@ app.post(`/testing`, async (req, res) => {
                 email,
                 gender,
                 phone,
-                psd
+                psd,
+                course
             }
 
-            console.log(userData);
             fileData.push(userData);
             await fs.writeFile('data.json', JSON.stringify(fileData));
         }
-        
-        cheku();
+
+        // saveUserData();
         res.status(200).json({
             success: true
         })
@@ -42,7 +42,9 @@ app.post(`/testing`, async (req, res) => {
 app.post(`/pay`, async (req, res) => {
     try {
         async function pay() {
-            let { amount } = req.body;
+
+            let amount;
+            amount = req.body.amount
 
             var instance = new Razorpay({
                 key_id: `rzp_test_yZ0fUpgIh9QxTg`,
@@ -68,5 +70,5 @@ app.post(`/pay`, async (req, res) => {
 })
 
 app.listen(port, () => {
-    console.log(`Server is live at`, port);
+    console.log(`Server is live at port:`,port);
 })

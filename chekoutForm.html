@@ -27,6 +27,15 @@
                 </div>
             </div>
 
+            <div>
+                <label class="formbold-form-label">Select course</label>
+                <select class="formbold-form-input" name="course" id="course">
+                    <option value="excel101">Excel 101</option>
+                    <option value="neuro101">Neuroscience 101</option>
+                    <option value="game101">Game Theory 101</option>
+                </select>
+            </div>
+
             <div class="formbold-mb-3 formbold-input-wrapp">
                 <label for="phone" class="formbold-form-label"> Phone </label>
                 <div>
@@ -44,37 +53,7 @@
         </div>
     </div>
 
-    <button class="formbold-btn" id="rzp-button1">Pay</button>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-        document.getElementById('rzp-button1').onclick = async function (e) {
-            e.preventDefault();
-
-            let amount = 399900; // last two places are the decimal place
-
-            let response = await axios.post("http://localhost:5005/pay", { amount });
-
-            var options = {
-                "key": "rzp_test_yZ0fUpgIh9QxTg",
-                "amount": "399900", // last two places are the decimal place
-                "currency": "INR",
-                "name": "Excel 101",
-                "image": "assets/img/logo-poly.png",
-                "order_id": response.data.order_id,
-                "handler": function (response) {
-                    alert(response.razorpay_payment_id);
-                    alert(response.razorpay_order_id);
-                    alert(response.razorpay_signature)
-                }
-            }
-
-            var rzp1 = new Razorpay(options);
-
-            rzp1.open();
-        }
-
-
-    </script>
 </body>
 
 <style>
@@ -225,26 +204,68 @@
 <script>
 
     async function checkout() {
+
         let firstname = document.getElementById("firstname").value;
         let email = document.getElementById("email").value;
         let gender = document.getElementById("gender").value;
         let phone = document.getElementById("phone").value;
         let psd = document.getElementById("dob").value;
+        let course = document.getElementById("course").value
 
-        if (!firstname || !email || !gender || !phone || !psd) {
-            alert("Fill all fields");
-            return;
-        }
+        // if (!firstname || !email || !gender || !phone || !psd || !course) {
+        //     alert("Fill all fields");
+        // }
 
         let userData = {
             firstname,
             email,
             gender,
             phone,
-            psd
+            psd,
+            course
         };
 
-        let response = await axios.post('http://localhost:5005/testing', userData);
+        let response1 = await axios.post('http://localhost:5005/savedata', userData);
+
+        // first axios request ends here.
+
+        let crs = userData.course
+
+        let amount;
+        if (crs === "excel101") {
+            amount = 399900 // last two places are the decimal place
+        }
+        else if (crs === "neuro101") {
+            amount = 49900 // last two places are the decimal place
+        }
+        else if (crs === "game101") {
+            amount = 49900 // last two places are the decimal place
+        }
+
+        let body = {
+            amount
+        }
+
+        let response = await axios.post("http://localhost:5005/pay", body);
+
+
+
+        var options = {
+            "key": "rzp_test_yZ0fUpgIh9QxTg",
+            "amount": amount,
+            "currency": "INR",
+            "name": "Course payment",
+            "image": "assets/img/logo-poly.png",
+            "order_id": response.data.order_id,
+            "handler": function (response) {
+                alert(response.razorpay_payment_id);
+                alert(response.razorpay_order_id);
+            }
+        }
+
+        var rzp1 = new Razorpay(options);
+
+        rzp1.open();
 
     }
 

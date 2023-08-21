@@ -1,1 +1,10 @@
-[]
+[
+    {
+        "firstname": "Ibbu Zaman",
+        "email": "ibzfakeyt@gamil.com",
+        "gender": "female",
+        "phone": "1234567890",
+        "psd": "2023-08-29",
+        "course": "excel101"
+    }
+]
