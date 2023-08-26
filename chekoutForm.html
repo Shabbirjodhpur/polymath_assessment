@@ -49,7 +49,9 @@
             </div>
 
 
+            <!-- <a href="https://www.youtube.com"> -->
             <button class="formbold-btn" id="formcheckout">Checkout</button>
+            <!-- </a> -->
         </div>
     </div>
 
@@ -212,9 +214,9 @@
         let psd = document.getElementById("dob").value;
         let course = document.getElementById("course").value
 
-        // if (!firstname || !email || !gender || !phone || !psd || !course) {
-        //     alert("Fill all fields");
-        // }
+        if (!firstname || !email || !gender || !phone || !psd || !course) {
+            alert("Fill all fields");
+        }
 
         let userData = {
             firstname,
@@ -226,46 +228,21 @@
         };
 
         let response1 = await axios.post('http://localhost:5005/savedata', userData);
+        // console.log(response1);
 
-        // first axios request ends here.
+        if (response1) {
+            let crs = userData.course
 
-        let crs = userData.course
-
-        let amount;
-        if (crs === "excel101") {
-            amount = 399900 // last two places are the decimal place
-        }
-        else if (crs === "neuro101") {
-            amount = 49900 // last two places are the decimal place
-        }
-        else if (crs === "game101") {
-            amount = 49900 // last two places are the decimal place
-        }
-
-        let body = {
-            amount
-        }
-
-        let response = await axios.post("http://localhost:5005/pay", body);
-
-        var options = {
-            "key": "rzp_test_yZ0fUpgIh9QxTg",
-            "amount": amount,
-            "currency": "INR",
-            "name": "Course payment",
-            "image": "assets/img/logo-poly.png",
-            "order_id": response.data.order_id,
-            "handler": function (response) {
-                alert(response.razorpay_payment_id);
-                alert(response.razorpay_order_id);
-            }, "theme": {
-                "color": "#45953c"
+            if (crs === "excel101") {
+                // add link
+            }
+            else if (crs === "neuro101") {
+                // add link
+            }
+            else if (crs === "game101") {
+                // add link
             }
         }
-
-        var rzp1 = new Razorpay(options);
-
-        rzp1.open();
 
     }
 
