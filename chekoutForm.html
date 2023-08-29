@@ -229,29 +229,32 @@
         };
 
         let response1 = await axios.post('http://localhost:5005/savedata', userData);
-        // console.log(response1);
+        console.log(response1);
 
         if (response1) {
+
             let crs = userData.course
 
             if (crs === "excel101") {
                 // add link
-                // window.location.assign("https://google.com/");
-                // window.location.replace('https://google.com/');
-                // location.href('https://google.com/');
-                window.open("https://google.com/");
+                // window.open("https://youtube.com/");
+                window.open("https://buy.stripe.com/eVaaHi4hXcOagW4288");
             }
             else if (crs === "neuro101") {
                 // add link
+                window.open("https://buy.stripe.com/6oE6r2cOt5lIcFOaEF");
             }
             else if (crs === "game101") {
                 // add link
+                window.open("https://buy.stripe.com/aEUaHi29P9BYcFOaEG");
             }
+
         }
 
     }
 
     document.getElementById("formcheckout").addEventListener("click", () => {
         checkout()
+        // window.location.replace('https://google.com/');
     })
 </script>
