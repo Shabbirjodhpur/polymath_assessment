@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import fs from "fs/promises";
-import Razorpay from "razorpay";
+// import Razorpay from "razorpay";
 
 const app = express();
 const port = 5005;
