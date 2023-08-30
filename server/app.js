@@ -41,6 +41,8 @@ app.post(`/savedata`, async (req, res) => {
     }
 })
 
+// razor pay payment route
+
 // app.post(`/pay`, async (req, res) => {
 //     try {
 //         async function pay() {
